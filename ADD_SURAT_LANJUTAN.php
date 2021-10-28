@@ -3,6 +3,8 @@ $con = new mysqli("localhost", "root", "", "db_surat_ananda");
 
 $tgl = date('d F Y');
 
+$query = mysqli_query($con, 'SELECT * FROM tbl_jenis_surat ');
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,9 +30,13 @@ $tgl = date('d F Y');
     <label for="inputState" class="form-label">Jenis Surat</label>
     <select id="jnsSurat" name="jnsSurat" class="form-select">
       <option selected>Pilihan</option>
-      <option value=1>Surat Keputusan</option>
-      <option value=2>Surat Peminjaman</option>
-      <option value=3>Surat Pernyataan</option>
+      <?php
+      foreach ($query as $js) {
+      ?>
+      <option value="<?=$js['id_js']?>"><?=$js['jenis_surat']?></option>
+      <?php
+      }
+      ?>
     </select>
   </div>
   <div class="col-12">
@@ -71,7 +77,7 @@ $tgl = date('d F Y');
         $result = mysqli_query($con, "INSERT INTO `tbl_surat` (`id`, `no_surat`, `jns_surat`, `tanggal_surat`, `ttd_surat`, `ttd_mengetahui`, `ttd_menyetujui`) 
                   VALUES(null,'$no_surat','$jns_surat','$tanggal_surat','$ttd_surat','$ttd_mengetahui','$ttd_menyetujui')");
         
-        header("Location:VIEW_SURAT_LANJUTAN.php");
+        header("Location:VIEW_SURAT_LANJUTAN.php?pesan=success&frm=add");
     }
     ?>
     

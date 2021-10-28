@@ -19,7 +19,7 @@ $tgl = date('d F Y');
             <div class="card">
             <h1 style="text-align:center"><b>TAMBAH SURAT</b></h1>
             <div class="card-body">
-            <form class="row g-3" method="post" action="ADD_SURAT.php" name="tambahh">
+            <form class="row g-3" method="post" action="ADD_SURAT_LANJUTAN.php" name="tambahh">
   <div class="col-md-6">
     <label for="inputEmail4" class="form-label">Nomor Surat</label>
     <input type="text" class="form-control" id="NomorSurat" name="NomorSurat" placeholder="SK-1-9-2021">
@@ -71,7 +71,7 @@ $tgl = date('d F Y');
         $result = mysqli_query($con, "INSERT INTO `tbl_surat` (`id`, `no_surat`, `jns_surat`, `tanggal_surat`, `ttd_surat`, `ttd_mengetahui`, `ttd_menyetujui`) 
                   VALUES(null,'$no_surat','$jns_surat','$tanggal_surat','$ttd_surat','$ttd_mengetahui','$ttd_menyetujui')");
         
-        echo "User addes succesfully. <a href='VIEW_SURAT.php'>List Surat</a>";
+        header("Location:VIEW_SURAT_LANJUTAN.php");
     }
     ?>
     

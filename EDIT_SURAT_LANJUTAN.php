@@ -1,9 +1,11 @@
 <?php
-$con = new mysqli("localhost", "root", "", "db_surat_ananda");
+error_reporting(0);
+$con = mysqli_connect("localhost", "root", "", "db_surat_ananda");
 
 $tgl = date('d F Y');
 $id = $_GET['id'];
 $query = mysqli_query($con, "SELECT * FROM tbl_surat where id='$id'");
+
 $isi = $query->fetch_assoc();
     if($isi["jns_surat"]=='1'){
         $js = "Surat Keputusan";
@@ -28,9 +30,10 @@ $isi = $query->fetch_assoc();
     <div class="container">
     <row>
             <div class="card">
-            <h1 style="text-align:center"><b>TAMBAH SURAT</b></h1>
+            <h1 style="text-align:center"><b>EDIT SURAT</b></h1>
             <div class="card-body">
-            <form class="row g-3" method="post" action="EDIT_SURAT.php" name="tambahh">
+            <form class="row g-3" method="post" action="EDIT_SURAT_LANJUTAN.php" name="tambahh">
+            <input type="hidden" class="form-control" id="id" name="id" value="<?php echo $isi['id'];?>">
   <div class="col-md-6">
     <label for="inputEmail4" class="form-label">Nomor Surat</label>
     <input type="text" class="form-control" id="NomorSurat" name="NomorSurat" value="<?php echo $isi['no_surat'] ?>" placeholder="SK-1-9-2021">
@@ -38,7 +41,7 @@ $isi = $query->fetch_assoc();
   <div class="col-md-6">
     <label for="inputState" class="form-label">Jenis Surat</label>
     <select id="jnsSurat" name="jnsSurat" class="form-select">
-      <option selected value="<?php echo $isi['$jns_surat'] ?>"><?php echo $js ?>PILIHAN</option>
+      <option selected value="<?php echo $isi['jns_surat']?>"><?php echo $js ?> </option>
       <option value=1>Surat Keputusan</option>
       <option value=2>Surat Peminjaman</option>
       <option value=3>Surat Pernyataan</option>
@@ -61,7 +64,7 @@ $isi = $query->fetch_assoc();
     <input type="text" class="form-control" id="ttdMengetahui" name="ttdMengetahui" placeholder="Pa RT" value="<?php echo $isi['ttd_mengetahui'] ?>">
   </div>
   <div class="col-12">
-    <button type="submit" class="btn btn-primary" name="update">Update</button>
+    <button type="submit" class="btn btn-primary" name="update" id=>Update</button>
     <button type="submit" class="btn btn-danger">Cancel</button>
   </div>
 </form>
@@ -72,6 +75,7 @@ $isi = $query->fetch_assoc();
     <?php
 
     if(isset($_POST['update'])) {
+        $id = $_POST['id'];
         $no_surat = $_POST['NomorSurat'];
         $jns_surat = $_POST['jnsSurat'];
         $tanggal_surat = $_POST['tglSurat'];
@@ -79,10 +83,10 @@ $isi = $query->fetch_assoc();
         $ttd_mengetahui = $_POST['ttdMengetahui'];
         $ttd_menyetujui = $_POST['ttdMenyetujui'];
 
-        $result = mysqli_query($con, "UPDATE `tbl_surat` SET `no_surat` = `$no_surat`, `jns_surat` = `$jns_surat`, `tanggal_surat` = `$tanggal_surat`, `ttd_surat`= `$ttd_surat`, `ttd_mengetahui` = `$ttd_mengetahui`, `ttd_menyetujui` = `$ttd_menyetujui`
+        $result = mysqli_query($con, "UPDATE `tbl_surat` SET `no_surat` = '$no_surat`, `jns_surat` = `$jns_surat`, `tanggal_surat` = `$tanggal_surat`, `ttd_surat`= `$ttd_surat`, `ttd_mengetahui` = `$ttd_mengetahui`, `ttd_menyetujui` = `$ttd_menyetujui`
                   WHERE `id` = '$id'");
         
-        echo "User Updated succesfully. <a href='VIEW_SURAT.php'>List Surat</a>";
+        header("Location:VIEW_SURAT_LANJUTAN.php?pesan=success&frm=edit");
     }
     ?>
     
